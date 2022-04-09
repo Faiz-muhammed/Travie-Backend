@@ -2,7 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const env = require("dotenv");
 const db = require("./config/connection");
-const adminRoute = require("./Routes/admin");
+const companyRoute = require("./Routes/company");
 const userRoute = require("./Routes/user");
 const path = require("path");
 
@@ -22,13 +22,13 @@ app.use(
 
 db.connect((err) => {
   err
-    ? console.error("error in db conncetion")
+    ? console.error("error in db conncetion",err)
     : console.log("Database connected");
 });
 
 app.use(express.static(path.join(__dirname, "public")));
 
-app.use("/admin", adminRoute);
+app.use("/company", companyRoute);
 app.use("/user", userRoute);
 
 app.listen(PORT, (err) => {
