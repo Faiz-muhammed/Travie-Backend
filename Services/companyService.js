@@ -6,7 +6,7 @@ module.exports = {
   companyExist: (company) => {
     return db
       .get()
-      .collection(collection.COMPANY_DETAILS)
+      .collection(Collection.COMPANY_DETAILS)
       .findOne({ companyName: company });
   },
   companyRegister: async (regData) => {
