@@ -4,7 +4,7 @@ const { userRegister,userValidate } = require("../Services/userService");
 module.exports = {
   userSignUp: async (req, res) => {
     let { username, email, password } = req.body;
-    if (!(companyName && location && email && password)) {
+    if (!(username && email && password)) {
       return res.status(400).json({ message: "All inputs needed" });
     }
     let olduser = await userExist(req.body);
