@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken')
-const { userRegister,userValidate } = require("../Services/userService");
+const { userRegister,userValidate,userExist } = require("../Services/userService");
 
 module.exports = {
   userSignUp: async (req, res) => {
