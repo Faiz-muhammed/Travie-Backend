@@ -14,7 +14,7 @@ module.exports = {
       regData.password = await bcrypt.hash(regData.password, 10);
       let insertedCompany = await db
         .get()
-        .collection(collection.COMPANY_DETAILS)
+        .collection(Collection.COMPANY_DETAILS)
         .insertOne(regData);
       return insertedCompany;
     } catch (err) {
