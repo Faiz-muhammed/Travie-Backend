@@ -36,7 +36,7 @@ module.exports = {
           return res.status(400).json({message:"company password wrong"})
         }
         else{
-          return res.status(400).json({message:"company does not exost"})
+          return res.status(400).json({message:"company does not exist"})
         }
       }).catch((er)=>{
         console.error(er)
