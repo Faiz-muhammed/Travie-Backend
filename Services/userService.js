@@ -28,7 +28,7 @@ module.exports = {
    try{
        let user=await db.get().collection(collection.USER_DETAILS).findOne({username:loginData.username})
        if(user){
-           bcrypt.compare(user.password,loginData.password).then((res)=>{
+           bcrypt.compare(loginData.password,user.password).then((res)=>{
                return user
            })
        }
