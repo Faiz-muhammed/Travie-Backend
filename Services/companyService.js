@@ -62,5 +62,13 @@ module.exports = {
     catch(err){
       console.error(err);
     }
+  },
+  fetchHotels:()=>{
+    try{
+      return db.get().collection(Collection.HOTEL_DETAILS).find().toArray()
+    }
+    catch(err){
+      console.log(err);
+    }
   }
 };
