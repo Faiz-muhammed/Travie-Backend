@@ -1,6 +1,7 @@
 const bcrypt = require("bcrypt");
 const Collection = require("../config/collection");
 const db = require("../config/connection");
+const ObjectID = require('mongodb').ObjectID
 
 module.exports = {
   companyExist: (company) => {
@@ -55,20 +56,30 @@ module.exports = {
       .collection(Collection.HOTEL_DETAILS)
       .findOne({ hotelName: Hotel });
   },
-  addHotel:(Hotel)=>{
-    try{
-      return db.get().collection(Collection.HOTEL_DETAILS).insertOne(Hotel)
-    }
-    catch(err){
+  addHotel: (Hotel) => {
+    try {
+      return db.get().collection(Collection.HOTEL_DETAILS).insertOne(Hotel);
+    } catch (err) {
       console.error(err);
     }
   },
-  fetchHotels:()=>{
-    try{
-      return db.get().collection(Collection.HOTEL_DETAILS).find().toArray()
-    }
-    catch(err){
+  fetchHotels: () => {
+    try {
+      return db.get().collection(Collection.HOTEL_DETAILS).find().toArray();
+    } catch (err) {
       console.log(err);
     }
-  }
+  },
+  fetchCompanyHotels: (company) => {
+    try {
+      console.log(company);
+
+      return db
+        .get()
+        .collection(Collection.HOTEL_DETAILS)
+        .find({ companyId: company }).toArray();
+    } catch (err) {
+      console.error(err);
+    }
+  },
 };

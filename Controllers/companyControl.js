@@ -1,4 +1,4 @@
-const { companyExist, companyRegister,companyValidate,hotelExist,addHotel,fetchHotels} = require("../Services/companyService");
+const { companyExist, companyRegister,companyValidate,hotelExist,addHotel,fetchHotels,fetchCompanyHotels} = require("../Services/companyService");
 const jwt = require("jsonwebtoken");
 let companyRemind;
 
@@ -72,6 +72,17 @@ module.exports = {
       }
       else{
         return res.status(400).json({message:"No hotels at the moment"})
+      }
+    }
+    catch(err){
+      console.log(err)
+    }
+  },
+  getHotelsOfCompany:async(req,res)=>{
+    try{
+      let companyHotels=await fetchCompanyHotels(companyRemind);
+      if(companyHotels){
+        return res.status(200).json({data:companyHotels})
       }
     }
     catch(err){
