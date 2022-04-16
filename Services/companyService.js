@@ -1,6 +1,6 @@
 const bcrypt = require("bcrypt");
 const Collection = require("../config/collection");
-const db=require("../config/connection")
+const db = require("../config/connection");
 
 module.exports = {
   companyExist: (company) => {
@@ -21,32 +21,46 @@ module.exports = {
       console.error("Error while registering company", err);
     }
   },
-  companyValidate:async(companyDetails)=>{
-   try{
-     return new Promise(async(resolve,reject)=>{
-      let company=await db.get().collection(Collection.COMPANY_DETAILS).findOne({companyName:companyDetails.companyName})
-      if(company){
-        bcrypt.compare(companyDetails.password,company.password).then((status)=>{
-          if(status){
-            company.passcheck=true
-          }
-          else{
-            company.passcheck=false
-          }
-          resolve(company)
-        })
-      }
-      else if(!company){
-        resolve(false)
-      }
-      else{
-        reject({err:"error"})
-      }
-     })
-     
-   }
-   catch(err){
-     console.error("error in companyValidate",err)
-   }
+  companyValidate: async (companyDetails) => {
+    try {
+      return new Promise(async (resolve, reject) => {
+        let company = await db
+          .get()
+          .collection(Collection.COMPANY_DETAILS)
+          .findOne({ companyName: companyDetails.companyName });
+        if (company) {
+          bcrypt
+            .compare(companyDetails.password, company.password)
+            .then((status) => {
+              if (status) {
+                company.passcheck = true;
+              } else {
+                company.passcheck = false;
+              }
+              resolve(company);
+            });
+        } else if (!company) {
+          resolve(false);
+        } else {
+          reject({ err: "error" });
+        }
+      });
+    } catch (err) {
+      console.error("error in companyValidate", err);
+    }
+  },
+  hotelExist: (Hotel) => {
+    return db
+      .get()
+      .collection(Collection.HOTEL_DETAILS)
+      .findOne({ hotelName: Hotel });
+  },
+  addHotel:(Hotel)=>{
+    try{
+      return db.get().collection(Collection.HOTEL_DETAILS).insertOne(Hotel)
+    }
+    catch(err){
+      console.error(err);
+    }
   }
 };

@@ -1,5 +1,6 @@
-const { companyExist, companyRegister,companyValidate } = require("../Services/companyService");
+const { companyExist, companyRegister,companyValidate,hotelExist,addHotel} = require("../Services/companyService");
 const jwt = require("jsonwebtoken");
+let companyRemind;
 
 module.exports = {
   companyRegister: async (req, res) => {
@@ -30,6 +31,7 @@ module.exports = {
       }
       await companyValidate(req.body).then((response)=>{
         if(response.passcheck){
+          companyRemind=response._id
           return res.status(200).json({message:"company login success"})
         }
         else if(!response.passcheck&&response){
@@ -41,7 +43,25 @@ module.exports = {
       }).catch((er)=>{
         console.error(er)
       })
-      
-      
+       
   },
+  createHotel:async(req,res)=>{
+   let {hotelName,location,price}=req.body
+
+   if(!(hotelName&&location&&price)){
+     return res.status(400).json({message:"All inputs needed"})
+   }
+   let oldHotel = await hotelExist(hotelName)
+   if(oldHotel){
+     return res.status(400).json({message:"This hotel already exist"})
+   }
+   req.body.companyId=companyRemind
+   let hotelAdded=await addHotel(req.body)
+   if(hotelAdded){
+     return res.status(200).json({message:"hotel added succesfully"})
+   }
+   else{
+     return res.status(404).json({message:"something went wrong"})
+   }
+  }
 };
